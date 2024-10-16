@@ -1,0 +1,103 @@
+What is a Data Warehouse
+	0> Computer System to store and Analyze large amounts of 
+What is does
+	-> Gathers Data
+	-> Integgrates Data
+	-> Makes it Available
+	-> Supports Business Activities
+	-> Used for Analysis and Decision Making
+
+Databases (Transactional)
+Data Mart (Relational Database for Analysis) Subset of a Data Warehouse
+Data Lakes -> Non Structured Data in addition to Structured Data
+
+DWH Project Life Cycle:
+	-> Planning 
+		-> Business Requirement
+		-> Data Modelling
+	-> Implementation 
+		-> ETL Design and Development
+		-> BI Application Development
+	-> Maintenance and Support
+		-> Test and Deploy
+		-> Maintainence
+
+Personas:
+	Analysts
+	Data Scientists
+	Data Engineer
+	Database Administrators
+
+Layers of Data Warehouses:
+	-> Data Sources (Different Sources and Data Types)
+	-> Data Staging (ETL + Staging Data Store)
+	-> Dtat Storage (Data Warehouse + Data Mart)
+	-> Data Presentation (Data Analytics + Reporting Tools + Analysis Tools) (Tableay/Looker)/(PowerBI/KNIME)/(R/Python/AzureDataStudio)
+
+Bill Inmon Approach -> Top Down Approach -> Decide all Metadata and Business Rules before data is entered into a DWH -> Normalized Form -> Reduced Data Redundancy
+					-> Pros -> SSoT -> Less Storage as Normalized -> Easy to change data marts to support reporting changes
+					-> Cons -> More Joins -> Higher Startup Cost
+
+Ralph Kimball 	-> Bottom up Approach -> Denormalized -> Star Schema -> Focus on Data Marts -> Integrate them into a single Data Warehouse
+				-> Pros -> Low Startup Cost -> Denormalized thus easier and faster to query
+				-> Cons -> Increased ETL Processing time -> Higher Storage with duplocated date -> Ongoing Development needed
+
+OLAP -> Online Analytical Processing -> Multi Dimensional Model -> OLAP Cube (critical for OLAP Systems) -> Affects large number of records -> Large Read Optimized
+
+OLTP -> Online Transactional Processing -> Designed foe processing Simple Database Operations -> CRUD -> Less number of records -> Small Write/Read Optimized -> Large Volumes of Simple Queries Quickly
+
+Data Modelling:
+	-> Fact Table (FK,FK,FK,...,FK, -> Metrics)
+	-> Dimension Table (PK -> Attributes(count haf FKs))
+	-> Star Schema 
+	-> Snowflake Schema
+
+Kimball's 4 step process:
+	-> Select Organizational Process
+	-> Declare the Grain (Prefer Lowest Level)
+	-> Idnetify the Dimensions and the Attribures
+	-> Identify the Facts and Metrics (Fully-Additive/Semi-Additive/Non-Additive)
+
+Slowly Changing Dimensions:
+	-> Type 1 -> Update the row with new values -> No History
+	-> Type 2 -> Expire old row and create a new row with new ID and attribure values with start date
+	-> Type 3 -> Create additional column to maintain previous change value for all attributes
+	-> Type 4 -> 
+	-> Type 5 -> 
+	-> Type 6 -> 
+	-> Type 7 -> 
+	-> Modern Approach 	-> Snalshot the whole Dimension Table
+						-> Use historical snalshots for historical reports
+	
+Data Store Types:
+	-> Row Data Store    -> Best for Transactional Query
+	-> Column Data Store -> Best for Analytical Queries
+
+ETL(Batch)/ELT(Near Real Time Processes)/ELTL
+
+Data Cleaning:
+	-> Data Format Revision and Standardization (Case/Format)
+	-> Address Parsing
+	-> Data Validation (Range, Type)
+	-> De-Duplication
+
+Data Governance
+	-> Requirments
+	-> Standards
+	-> Regulations
+	-> Laws
+	-> Rules
+	-> Transparency
+
+On Prem v/s On Cloud v/s Hybrid
+
+
+
+
+
+
+Other Courses:
+	SQL Fundamentals
+	Building Data Pipelines
+	Analyzing Warehouse Data
+

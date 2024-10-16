@@ -1,0 +1,51 @@
+app.fabric.microssoft.com
+Free Fabric Account
+License:
+
+Tenant
+Subscription
+Capacity
+Workspace
+
+OneLake
+LakeHouse
+WareHouse - T-SQL
+PowerBI - Visual Reports (Visualize/Iteract - Aggregated Data) / Paginated Reports ()
+Semantic Models - Datasets - Models to Analyze Data - Store data with Relations - Compute the Aggregations - Storage in Columnar format
+
+DAX - Dynamic Analysis Expressions
+Standars Capacity - Starter Pool - Default nodes
+
+Notebooks - HTML/Python(Spark)/SQL(Spark)/Scala(Spark)/R
+
+Data Wrangler + VS Code + AutoPilot Code Feature
+
+KQL-db - Kusto Query Language - Real Time Analytics - Event Stream
+
+Data Activator - Triggers - Event Stream - PowerBI Viz - (Select - Detect - Act[Email/Teams/Custom Event])
+
+Purview - DataMap (Metadata) - Data Catalog (Discovery) - Data Policy (Access) - Information Protection (Protection) - Data Governance 
+
+Data Pipeline - setup activities - Load data into a Data Warehouse - Select Data Source and Set Destination - Run Pipeline
+
+Shortcuts - File Shortcuts (Links) + Table Shortcuts (Reference Views) (Base Table should already be in a Delta Parquet Format)
+
+File Explorer - Connect OneLake to your Local File System
+
+Dataflow Gen 2
+
+Semantic Models
+
+LakeHouse - Files & Tables
+
+SQL end Point
+
+Real Time 
+	-> Event Stream (Ingest - Data Source (EventHub/Kafka/MQ) + Data Destination (KQL Database))
+	-> KQL QuerySet (Saved KQL Queries)
+	-> Streaming Symantic Model (APIs)
+	-> Real Time Reporting
+
+
+
+

@@ -1,0 +1,122 @@
+All About How the data is to be used:
+
+OLAP/OLTP
+
+Schemas
+Normalization
+Views
+Access control
+DBMS
+
+
+
+Data Formats
+	-> Structured
+	-> Semi-Structured
+	-> UnStructured
+
+MPP - Read Optimized -> RedShift/BigQuery/AzureSQL
+
+Data Lakes -> Object Storage v/s Block/File Storage
+
+Data Swamp -> Not Cleaned and Cataloged Data Lake
+
+Data Models:
+	Relational Data Model
+	Dimensional Model (Fact and Dimension Table)
+	
+Data Modelling:
+	Conceptual
+	Logical
+	Physical
+
+ER Diagrams
+
+Star Schema -> Fact/Dimension 
+
+Normalization/Denormalization
+
+Data Anomalies:
+	Update Anomalies
+	Insert Anomalies
+	Delete Anomalies
+
+Normal Forms:
+
+	UNF -> Un-normalized Normal Form
+	
+	1NF -> First Normal Form
+		-> unique record -> No Duplicates
+		-> Each Cell Must hold a Single Value
+
+	2NF -> Second Normal Form
+		-> 1NF
+		-> No Partial Dependencies
+		-> Either 1 Column Primary Key
+		-> OR IF Composite Promary Key THEN Each Non-Key Column must be dependent on all keys (All Columns in the Composite Key)
+
+	3NF -> Third Normal Form
+		-> 2NF
+		-> No Transitive Dependencies
+		-> non Key columns cannot be dependent on non Key columns
+
+	EKNF-> Elementary Key Normal Form
+		-> 
+
+	BCNF-> Boyce-Codd Normal Form
+		-> 
+
+	4NF -> Fourth Normal Form
+		-> 
+
+	ETNF-> Essential Tuple Normal Form
+		-> 
+
+	5NF -> Fifth Normal Form
+		-> 
+
+	DKNF-> Domain-Key Normal Form
+		-> 
+
+	6NF -> Sixth Normal Form
+		-> 
+
+Views (DDL)
+	Convert Snowflake to Star using Views
+	Prefer ReadOnly
+	Drop View Restrict/Cascade
+	Create or Replace Views
+	Materialize Views
+	View Refresh DAG
+
+Access Control:
+	DCL -> Data Control Language -> Grant/Revoke Commands
+	Database Roles
+		-> Create Role data_analyst;
+		-> Create Role admin createDB, createrole;
+		-> GRANT UPDATE ON ratings TO data_analyst;
+		-> REVOKE UPDATE ON ratings FROM data_analyst;
+		-> User Role -> Group Role -> 
+		-> Grant GROUP_ROLE to USER_ROLE
+		
+Table Partitioning:
+
+Data Integration: (Flexible/Repiable/Scalable)
+	Unified Data Model
+	Update Cadence
+	Transformations
+	Automated Testing and Proactive Alerts
+	Security
+	Anonymization
+	Data Governance
+	Data Lineage
+
+DBMS:
+	Data
+	Database Schema
+	Database Engine
+
+Types:
+	SQL - Relational
+	NoSQL - Less Structure - Key-Value Store, Document Store, Columnar Database, Graph Database
+

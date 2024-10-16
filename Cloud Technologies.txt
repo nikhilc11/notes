@@ -1,0 +1,73 @@
+Hybrid - Data Mesh Architecture
+
+Azure Components:
+
+Azure Event Hub -> 
+Azure IoT Hub -> 
+Azure Data Lake Storage -> 
+Azure Stream Analytics -> 
+Azure Explorer Pool -> 
+Azure Spark Pools -> 
+Azure Serverless and Dedicated SQL Pools -> 
+Databracks Spark -> 
+Azure Data Factory Pipelines -> 
+Azure ML -> 
+Databricks ML -> 
+Azure Data Activator -> 
+Azure Data Explorer -> 
+Azure Kubernetes -> 
+Azure Cognetive Search -> 
+Azure OpenAI -> 
+Power BI Premium -> 
+Azure Cosmos DB -> 
+Azure Functions -> 
+OKAPI Api Gateway -> 
+Azure Data Share -> 
+Power Automate -> Power Apps
+Unity Catalog -> 
+
+
+
+AWS Components:
+
+kinesis -> Data Stream Processing
+firehose -> Streaming Data Pipeline
+S3 -> Storage
+Redshift -> 
+Athena -> 
+Sagemaker -> 
+SQL Editor -> 
+RDS -> 
+Dynamo -> 
+ECS -> 
+Lambda -> 
+EC2 -> 
+Step Function -> 
+Aurora -> 
+API Gateway -> 
+Glue Catalog -> 
+Lake Formation -> 
+Cromwell -> 
+
+
+
+
+Data Lake
+	-> OneLake
+	-> ADLS
+	-> AWS S3
+	-> NetApp
+
+
+
+medallion architecture => Bronze -> Silver -> Gold
+
+Data Hub
+	-> Lakehouse
+	-> Warehouse
+	-> Feature Store
+	-> Data Lab
+	-> Datamart
+
+
+

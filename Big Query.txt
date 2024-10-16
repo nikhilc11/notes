@@ -1,0 +1,100 @@
+Google Big Query:
+
+SQL based
+
+Enterprise Data Warehouse
+
+OLAP Tool
+
+Seperate Compute and Storage
+
+Completely Serverless
+
+Distributed Memory Shuffle
+
+Distributed Query Engine
+
+No Tier Dsitribution and Costing -> Standardized Costing
+
+Point in time Analytics -> once a day or hour reporting -> Not Interactive
+
+Best to work with scheduled reports -> daily/weekly/monthly/quarterly/annually -> AdHoc Analysis for Data Discuvery
+
+Each Column is Stored Seperately and contains an index across each column -> Optimized Read Intensive Workloads faster.
+
+
+
+
+Capacitor   -> Columnar Format -> Store and Retrieve Semi-Struvctured Data Efficiently with nested and repeated fields
+			-> Each Big Query Table Column -> Stored as a Seperate Capacitor File -> Data is Highly Compressed to Increase Speed
+
+Google Colossus -> Storage -> Distributed File System -> Replication, Recovery and Distibuted Management
+				-> Each Google Data Center has its own seperate Colossus Cluster
+
+Jupiter -> It is the connectivity Tissue between Storage and Compute in Big Query
+
+BORG -> Vast Cluster Management System -> Resource Allocation
+
+Dremel  -> is the engine that runs and organizes the query to run quickly
+		-> Performs Logical Splitting of the Query to run them as quickly as possible
+		-> Engine that actually executes and manages the query
+		-> The Query Execution involved a Hierarchical Structure with a Root, Mixers (Itermediate Nodes) and Leaf Nodes
+		-> Root -> Query Submission creates a Root node which Reads the Metadata and Communicates with Mixers
+		-> Mixers ->  Optimize the Query and Sent it to Leaf Nodes for Execution
+		-> Leaf Nodes -> Read data from Colossus, Apply Filters and Perfroem Aggregation
+		-> Slots -> Compute required to execute each query based on its complexity
+
+Data Organization:
+	BigQuery can have Multiple Projects
+	
+	Projects -> Google Cloud uses Projects as top level structure for every tool in google cloud
+			 -> Permissions, Users and Access Control
+			 -> User can be assigned Multiple Projects
+	DataSets -> Folder that contains individual tables
+			 -> similar to Schema within other SQL Databases
+			 -> They have their own permissions
+			 -> To join data from dfferent datasets, the user would require permissions to bith the datasets seperately
+	Tables ->  Where the Data Resides
+
+Note -> The Region of a Dataset CANNOT be changed once set
+	 -> there are methods that can move/replicate data betweeen regions
+	 -> NO Methods to query data between 2 regions
+	 -> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Snowflake -> Specific Tiers of Compute Resources -> Having Different Pricing -> Can be hosted on any cloud environment
+
+Redshift -> Constant Computation or Serverless Compute + Suited for Live Dashboarding -> 
+
+SQL Databases -> OLTP -> Compute and Storage are linked -> Non-Distributed -> 
+

@@ -1,0 +1,409 @@
+Snowflake ( Similar to Amazon Redshift / Google BigQuery / HP Vertica / Databricks)
+	Cloud Data Warehouse Solution (Pay as you go)
+		Flexibility
+		Scalability
+		Accessibility
+		Cost-Effective
+		Lower Management Effort
+	Columnar Data Storage (Not Row Oriented)
+		
+Uses:
+	Business Intelligence
+	Data Science
+	Data Ingestion
+	Data Warehousing
+	Data Sharing
+
+Architecture:
+	Shared Disk (Individual CPU + Individual Memory + Shared Disk) v/s Shared Nothing (Individual CPU + Individual Memory + Individual Disk)
+	Decoupling Stirage and Compute:
+		Efficient Data StorageIndependent Data Processing
+		Components operate without interdependenies
+	Pros:
+		Enhanced Stability
+		Faster Data Processing and Response
+		Cost-Effective Operations
+
+Storage Layer:
+	Columnar Storage
+	Optimized
+	Compressed
+	Tables,Schemas,Databases
+
+Compute Layer:
+	Query Engine
+	Virtual Warehouses (OnDemand) - Scalability - T-Shirt Size Based
+
+Cloud Services Layer:
+	Sccess Control
+	Authentication
+	Security
+	Infra Management
+	Query Optimization
+
+Staging Area in Snowflake -> 
+
+SnowflakeSQL:
+	DDL
+	Insert
+	Update
+	Merge (Important)
+	Copy Into
+
+Data Types:
+	Varchar
+	Numeric
+	Int
+	Date (YYYY-MM-DD)
+	Time (HH:MI:SS)
+	timestamp (YYYY-MM-DD HH:MI:SS)
+	Varient -> Semi-Structured Data -> Same as JSONB in postgreSQL
+
+Data Types Conversions:
+	Cast (column/'literal' AS data_type)
+	column/'literal'::data_type
+	To_DATE('YYYY-MM-DD HH:MI:SS')
+
+Group By All
+
+Joins:
+	Inner
+	Outer (Left, right, Full)
+	Cross
+	Self
+	Natural - Eliminated Duplicate Columns with Matching Names - On Condition not Allowed - Only Where condition allowed
+	Lateral - Allows SubQueries within a from claues to access column from a preceeding table or view
+
+SubQueries
+	Correlated SubQuery (Limit not Possible in this type of sub query)
+	UnCorrelated SubQuery
+
+CTEs (Common Table Expressions) Multiple Allowed
+	
+Query Optimization:
+	Processing Speed
+	Cost Efficiency
+
+Common Query Problems
+	1. Exploding Joins
+	2. UNION ALL instead of UNION
+	3. TOP Clause
+	4. Limit
+	5. Avoid Select *
+	6. Filter Early
+	7. Query History View -> Provides Metrics -> Spot Slow Queries > 1000 ms
+
+Semi-Structured Data
+	-> Parse Json
+	-> OBJECT_CONSTRUCT
+	-> : Notation -> Can go down to all nexted levels (First Level is Compulsory, subsequently we can use Dot for other levels)
+	-> JSON Top Column Name : internal Column Name = direct column access
+
+
+	
+Data Modelling in Snowflake:
+
+Data Model
+	Conceptual Data Model - Entity and Relations
+	Logical Data Model - Entity (With Attributes) and Relations(With Cardinality)
+	Physical Data Model - Primary Key, Foreign Key, 
+Entity
+Attribute
+Relationship
+
+
+DESC TABLE <table_name>;
+
+CREATE OR REPLACE TABLE customers (
+	customerid NUMBER(38,0) PRIMARY KEY,
+	country VARCHAR(255)
+);
+
+CREATE OR REPLACE TABLE products (
+	stockcode VARCHAR(255) PRIMARY KEY,
+	description VARCHAR(255)
+);
+
+CREATE OR REPLACE TABLE orders (
+	invoiceno NUMBER(38,0) PRIMARY KEY,
+	customerid NUMBER(38,0),
+	invoicedate DATE,
+	unitprice DECIMAL(10,2),
+	quantity INT,
+	stockcode VARCHAR(255),
+	FOREIGN KEY (stockcode) REFRENCES products(stockcode)
+);
+
+SELECT * FROM <table_name>;
+
+Snowflake Functions for 1NF:
+	Trim
+	Lateral & Flatten
+	Split
+
+SELECT TRIM(f.value) FROM allproducts,
+LATERAL FLATTEN(INPUT => SPLIT(allproducts.category,';')) f;
+
+
+
+SELECT
+	ROW_NUMBER() OVER (ORDER BY TRIM(alias.value)),
+	TRIM(alias.value) 
+FROM allproducts,
+LATERAL FLATTEN(INPUT => SPLIT(allproducts.category,';')) alias
+GROUP BY TRIM(alias.value);
+
+
+
+SELECT
+	-- Clean empty values
+	TRIM(f.value)
+FROM productqualityrating,
+-- Add function to split values separated by comma
+LATERAL FLATTEN(INPUT => SPLIT(productqualityrating.ingredients, ';')) f;
+
+SELECT
+	-- Create a sequential number
+	ROW_NUMBER() OVER (ORDER BY TRIM(f.value)),
+	TRIM(f.value)
+FROM productqualityrating,
+LATERAL FLATTEN(INPUT => SPLIT(productqualityrating.ingredients, ';')) f
+-- Group the data
+GROUP BY TRIM(f.value);
+
+-- Add new entity
+CREATE OR REPLACE TABLE manufacturers (
+  	-- Assign unique identifier
+  	manufacturer_id NUMBER(10,0) PRIMARY KEY,
+  	--Add other attributes
+  	manufacturer VARCHAR(255),
+  	company_location VARCHAR(255)
+);
+
+company_location
+
+
+Data Vault Modelling - Historical Data Tracking - Hubs, Links and Satellites
+	Hubs -> Entities with fixed Attributes -> hub_
+	Links -> Relationships with fixed Attributes -> link_
+	Satellites -> Time Variable / Changing Attributes for noth Hubs and Links -> sat_
+
+
+CREATE OR REPLACE TABLE hub_<entity_name>
+(
+	<entity_name>_key NUMBER(10,0) AUTOINCREMENT PRIMARY KEY,
+	<entity_name>_id  NUMBER(10,0),
+	load_date TIMESTAMP,
+	record_source VARCHAR(255)
+)
+
+CREATE OR REPLACE TABLE link_<relation_name>
+(
+	<relation_name>_key NUMBER(10,0) AUTOINCREMENT PRIMARY KEY,
+	<entity_1_name>_id  NUMBER(10,0),
+	<entity_2_name>_id  NUMBER(10,0),
+	load_date TIMESTAMP,
+	record_source VARCHAR(255),
+	FOREIGN KEY <entity_1_name>_id REFERENCES hub_<entity_1_name> (<entity_1_name>_id),
+	FOREIGN KEY <entity_2_name>_id REFERENCES hub_<entity_2_name> (<entity_2_name>_id)
+)
+
+CREATE OR REPLACE TABLE sat_<entity_name>
+(
+	<entity_name>_key NUMBER(10,0),
+	<entity_attribute_1> <datatype>,
+	<entity_attribute_2> <datatype>,
+	...
+	<entity_attribute_n> <datatype>,
+	load_date TIMESTAMP,
+	record_source VARCHAR(255),
+	FOREIGN KEY <entity_name>_key REFERENCES hub_<entity_name> (<entity_name>_key)
+)
+
+
+
+
+
+
+
+
+-- Create a new hub entity
+CREATE OR REPLACE TABLE hub_employee (
+	-- Assign automated values to the hub key
+	hub_employee_key NUMBER(10,0) AUTOINCREMENT PRIMARY KEY,
+	employee_id NUMBER(38,0),
+	-- Add attributes for historical tracking
+	load_date TIMESTAMP,
+	record_source VARCHAR(255)
+);
+
+CREATE OR REPLACE TABLE hub_department (
+	-- Assign automated values to the hub key
+	hub_department_id NUMBER(10,0) AUTOINCREMENT PRIMARY KEY,
+  	-- Add hubs key reference
+	department_id NUMBER(38,0),
+	-- Add attributes for historical tracking
+	load_date TIMESTAMP,
+	record_source VARCHAR(255)
+);
+
+CREATE OR REPLACE TABLE hub_training (
+	-- Add hub key
+	hub_training_key NUMBER(10,0) AUTOINCREMENT PRIMARY KEY,
+    -- Add the key attribute of trainings
+	training_id NUMBER(38,0),
+	-- Add history tracking attributes
+	load_date TIMESTAMP,
+	record_source VARCHAR(255)
+);
+
+-- Create a new satellite
+CREATE OR REPLACE TABLE sat_employee (
+	sat_employee_key NUMBER(10,0) AUTOINCREMENT PRIMARY KEY,
+	hub_employee_key NUMBER(10,0),
+   	employee_name VARCHAR(255),
+    gender CHAR(1),
+    age NUMBER(3,0),
+	-- Add history tracking attributes
+	load_date TIMESTAMP,
+	record_source VARCHAR(255),
+	-- Add a reference to foreign hub
+    FOREIGN KEY (hub_employee_key) REFERENCES hub_employee(hub_employee_key)
+);
+
+CREATE OR REPLACE TABLE sat_department (
+	-- Add the satellite's unique identifier
+	sat_department_key NUMBER(10,0) AUTOINCREMENT PRIMARY KEY,
+	-- Add the hub's key attribute
+	hub_department_key NUMBER(10,0),
+	department_name VARCHAR(255),
+	region VARCHAR(255),
+    -- Add history tracking attributes
+	load_date TIMESTAMP,
+	record_source VARCHAR(255),
+	-- Add a reference to foreign hub
+    FOREIGN KEY (hub_department_key) REFERENCES hub_department(hub_department_key)
+);
+
+CREATE OR REPLACE TABLE sat_training (
+	sat_training_key NUMBER(10,0) AUTOINCREMENT PRIMARY KEY,
+	-- Add the hub's key reference
+	hub_training_key NUMBER(10,0),
+	training_type VARCHAR(255),
+    duration NUMBER(4,0),
+    trainer_name VARCHAR(255),
+    load_date TIMESTAMP,
+    record_source VARCHAR(255),
+	-- Add a reference to foreign hub
+	FOREIGN KEY (hub_training_key) REFERENCES hub_training(hub_training_key)
+);
+
+CREATE OR REPLACE TABLE link_all (
+	link_key NUMBER(10,0) AUTOINCREMENT PRIMARY KEY,
+	hub_employee_key NUMBER(10,0),
+  	-- Add the hub's key attributes
+  	hub_training_key NUMBER(10,0),
+  	hub_department_key NUMBER(10,0),
+  	load_date TIMESTAMP,
+    record_source VARCHAR(255),
+	FOREIGN KEY (hub_employee_key) REFERENCES hub_employee(hub_employee_key),
+  	-- Add a relationship with the foreign hubs
+	FOREIGN KEY (hub_training_key) REFERENCES hub_training(hub_training_key),
+	FOREIGN KEY (hub_department_key) REFERENCES hub_department(hub_department_key)
+);
+
+
+
+
+
+
+
+ER Modelling -> Transactional Data -> Daily Routine Business Data -> CRM Systems
+Dimensional Modelling -> Business Intelligence Modelling -> Quick Analysis, Exploratory Analysis -> Data Driven Decision Making
+Data Vault Modelling -> Ideal for Data Warehousing -> Long Term Historical Tracking -> Auditing -> Complete Data History Available
+
+
+
+
+
+
+
+
+SELECT
+	-- Add the attribute from employees
+    hub_e.hub_employee_key,
+    -- Add the attribute from the department
+    sat_d.department_name
+FROM hub_employee AS hub_e
+	-- Merge hub with link
+	JOIN link_all AS li
+    ON hub_e.hub_employee_key = li.hub_employee_key
+	-- Merge link with satellite
+    JOIN sat_department AS sat_d
+    ON li.hub_department_key = sat_d.hub_department_key;
+
+SELECT
+    hub_e.hub_employee_key,
+    sat_d.department_name,
+    -- Add the new attribute
+	sat_t.avg_training_score
+FROM hub_employee AS hub_e
+	JOIN link_all AS li 
+    ON hub_e.hub_employee_key = li.hub_employee_key
+    JOIN sat_department AS sat_d 
+    ON li.hub_department_key = sat_d.hub_department_key
+    -- Merge the satellite, even if there is no data for that employee
+    LEFT JOIN sat_training AS sat_t
+    ON li.hub_training_key = sat_t.hub_training_key;
+	
+SELECT
+    hub_e.hub_employee_key,
+    sat_d.department_name,
+    sat_t.avg_training_score
+FROM hub_employee AS hub_e
+	JOIN link_all AS li 
+    ON hub_e.hub_employee_key = li.hub_employee_key
+    JOIN sat_department AS sat_d 
+    ON li.hub_department_key = sat_d.hub_department_key
+    LEFT JOIN sat_training AS sat_t 
+    ON li.hub_training_key = sat_t.hub_training_key
+-- Add filter for training
+WHERE sat_t.awards_won = 1;
+
+SELECT
+    hub_e.hub_employee_key,
+    sat_d.department_name,
+    -- Aggregate the attribute
+    MAX(sat_t.avg_training_score) AS average_training
+FROM hub_employee hub_e
+	JOIN link_all AS li 
+    ON hub_e.hub_employee_key = li.hub_employee_key
+    JOIN sat_department AS sat_d 
+    ON li.hub_department_key = sat_d.hub_department_key
+    LEFT JOIN sat_training AS sat_t 
+    ON li.hub_training_key = sat_t.hub_training_key
+WHERE sat_t.awards_won = 1
+-- Group the results 
+GROUP BY hub_e.hub_employee_key, sat_d.department_name;
+
+
+
+
+
+
+Micro Partitions with Index to identify the Exact Micro Partitions
+Snowflake Query Profile
+
+
+
+Snowflake Data Objects
+Data Warehouse
+Virtual Warehouse -> Compute
+Create Warehouse
+USE Warehouse
+Data Hierarchy = Database -> Schemas (Folders) -> Tables
+CREATE Database
+CREATE SCHEMA
+CREATE Table
+CREATE [MATERIALIZED] VIEWS
+ 

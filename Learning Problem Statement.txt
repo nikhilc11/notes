@@ -1,0 +1,268 @@
+Publicis Sapient
+
+Background:
+
+	XYZ is one of the largest tele-communication companies in the world.
+	They have services in many countries but focusses mainly in USA.
+	XYZ is a global leader delivering innovative communications and technology solutions that improve the way customers live, communicate and work.
+
+Business Needs:
+
+	XYZ wants to control its Churn Rate and improve customer satisfaction by providing seamless Service.
+	They have found that network disruption is the primary reason for customer leaving the company and switching to other telecom provider.
+	CIO wants to perform an in-depth analysis baeed on ecisting data and provide recommendations and decisions on setting up new infrastructure
+	to improve network and customer experience and also plan 5G setup.
+	Below are the key requirements:
+
+	Identify on real time bases for sudden network outage in an area
+	Identify area having maximum traffic and setup additional network tower accordingly
+	Identify potential area to setup 5G infrastructure based on usage
+	Real time notification to maintenance team and customer care on outage
+
+Initial Findings:
+
+	Upon analysis you find out that company collects real time data for all the calls done by customer.
+	The data team informs you that the following files are present:
+		call_logs
+		location_dim
+	
+	Note:
+		All files are comma seperated. Sample data for 2 Months call logs for USA has been provided to you for analysis.
+		Assume that location_dim has data for all the locations of USA.
+
+Data Understanding: 
+
+	call_logs:
+		date
+		hour
+		signal (0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31)
+		status (0,2,3)
+		description (STATE_EMERGENCY_ONLY(2)/STATE_IN_SERVICE(0)/STATE_POWER_OFF(3))
+		net ("",2G,3G,4G)
+		speed (numeric)
+		activity (IN_VEHICLE,ON_BICYCLE,ON_FOOT,STILL,TILTING,UNKNOWN)
+		postal_code (FROM DIM)
+		satallites
+		precision
+
+	location_dim:
+		state
+		state_name
+		city
+		postal_code
+		population
+		density
+
+	customer_dim:
+		...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Request 1:
+
+	Problem Statement:
+
+		Design a Data Platform for both Batch and Real Time Data with below considerations:
+
+			Build a platform to ingest and process real time data for call logs with minimum latency.
+			This Data Meedes to be Integrated with company's data warehoue having customer and location data (Batch).
+
+			Platform should be capable of detecting newtork failures and sent notifications to maintenance and Customer Care teams.
+
+			Need to build real time network coverage visualization with semf service capability
+
+			System should also be aboe to predict any outage based on historical data using AI/ML
+
+	Requirement:
+
+		Use a Paper/Whiteboard and clearly explain your design and architecture. - Take a snap and share it with the hiring teams
+
+		Create Solution Architecture to address the following:
+
+			Logical Architecture with Tools
+
+			What are the preferred Databases
+
+			Elaborate the solution Flow for both Real Time and Batch Data Processing
+
+			Physical Architecture / Hosting
+
+			Which reporting tool would be most suitable
+
+			How would you design Recommendation Engine for new Infrastructure
+
+		Define the Data Storage Model for the Platform. List down all the entities and reference tables
+
+		Please list down any assumptions
+
+	Enhancements:
+
+		Use a Paper/Whiteboard and clearly explain your design and architecture. - Take a snap and share it with the hiring teams
+		
+		Answer the following Questions:
+			
+			How will the architecture/solution change to expand globally and process data at very high scale
+			
+			What would you recommend for DevOps Implementation such as CI/CD, QA Automation, etc
+			
+			Please suggest design of common reusable framework for Data Acquisition, Ingestion, Transformations, Loading, Error Management, Auditing, Recovert/Restart, Reconciliation, Scheduling and Monitoring and Data Governance Frameworks.
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Request 2:
+
+	Problem Statement:
+		
+		Provide current state analytics to the CIO. Use the above data files to calculate the following:
+			
+			What is the peak hour of the day when the call traffic is maximum
+			List top 5 States where speed is lower than average of the country
+			Which state has maximum EMERGENCY STATE of NETWORK (description = STATE_EMERGENCY_ONLY)
+			What is the relation between user activity and speed (Calculate average speed for each activitylike "IN_VEHICLE").
+			Which state has maximum call volume density
+		
+		Note:
+			There could be some bad data in column "speed" of file call_logs, do validation and filtr all such bad records.
+
+	Solutions:
+	
+		1. SELECT hour AS peak_hour FROM (SELECT split(hour, ":")[0] AS hour, sum(1) as calls_count FROM call_logs GROUP BY 1 ORDER BY 2 DESC LIMIT 1)
+		
+		2. WITH
+			state_avg_speed_cte AS (
+				SELECT state_id, state_name, round(sum(speed)/sum(1), 2) AS state_avg_speed
+				FROM call_logs cl INNER JOIN location_dim ld ON cl.postal_code = ld.postal_code
+				WHERE speed/1 IS NOT NULL
+				GROUP BY state_id, state_name
+			),
+			country_avg_speed_cte AS (
+				SELECT round(sum(state_avg_speed)/sum(1), 2) AS country_avg_speed FROM state_avg_speed_cte
+			),
+			inner_sub_query_cte AS (
+				SELECT state_id, state_name, state_avg_speed, dense_rank() OVER (ORDER BY state_avg_speed DESC) AS state_rank
+				FROM state_avg_speed_cte 
+				WHERE state_avg_speed < (SELECT country_avg_speed FROM country_avg_speed_cte)
+				ORDER BY state_avg_speed DESC LIMIT 5
+			)
+			SELECT state_rank, state_id, state_name FROM inner_sub_query_cte
+		
+		3. WITH
+			call_logs_emergency_cte AS (
+				SELECT postal_code, sum(1) AS emergency_instance_count FROM call_logs WHERE description = "STATE_EMERGENCY_ONLY" GROUP BY postal_code
+			),
+			location_joined_emergency_cte AS (
+				SELECT state_id, state_name, SUM(emergency_instance_count) AS state_emergency_instance_count 
+				FROM call_logs_emergency_cte cle INNER JOIN location_dim ld ON cle.postal_code = ld.postal_code
+				GROUP BY state_id, state_name ORDER BY 3 DESC LIMIT 1
+			)
+			SELECT state_id, state_name FROM location_joined_emergency_cte
+				
+		4. SELECT activity, round(sum(speed)/sum(1), 2) AS avg_speed FROM call_logs WHERE speed/1 IS NOT NULL GROUP BY activity ORDER BY 2 DESC
+		
+		5. WITH
+			calls_by_postal_code_cte AS (
+				SELECT postal_code, sum(1) as calls_initiated FROM call_logs GROUP BY postal_code
+			),
+			location_joined_calls_cte AS (
+				SELECT state_id, state_name, SUM(calls_initiated) AS state_calls_initiated, SUM(round(population/density), 2) AS state_area
+				FROM calls_by_postal_code_cte clp INNER JOIN location_dim ld ON clp.postal_code = ld.postal_code
+				GROUP BY state_id, state_name
+			),
+			inner_sub_query AS (
+				SELECT state_id, state_name, round(state_calls_initiated /state_area, 2) AS call_volume_density
+				FROM location_joined_calls_cte 
+				ORDER BY 3 DESC LIMIT 1
+			)
+			SELECT state_id, state_name FROM inner_sub_query

@@ -1,0 +1,331 @@
+https://learning.oreilly.com/course/advanced-architecture-for/9781491978665/
+
+Advanced Architecture for Big Data Applications
+
+Course Outline
+
+	Welcome - 10m 42s
+		What Distributed Systems Are, and Why They Exist - 2m 51s
+		Read Replication - 4m 57s
+		Sharding - 8m 45s
+		Consistent Hashing - 19m 27s
+		CAP Theorem - 12m 8s
+		Distributed Transactions - 16m 54s
+		Distributed Computation Introduction - 4m 32s
+		Map Reduce - 12m 25s
+		Hadoop - 22m 53s
+		Spark - 18m 22s
+		Storm - 16m 27s
+		Lambda Architecture - 8m 36s
+		Synchronization - 4m 19s
+		Network Time Protocol - 8m 10s
+		Vector Clocks - 12m 26s
+		Distributed Consensus: Paxos - 16m 32s
+		Messaging Introduction - 6m 25s
+		Kafka - 16m 13s
+		Zookeeper - 18m 57s
+		Wrap-Up - 6m 13s
+
+	Getting Started - 14m
+		About The Course - 2m 38s
+		About The Author - 2m 54s
+		What Is A Data Warehouse? - 3m 52s
+		Comparing Operational Applications And Data Warehouses - 4m 31s
+
+	Data Warehouse Overview - 23m
+		Development Approach - 3m 7s
+		Data Sources - 2m 26s
+		Staging Tables - 1m 29s
+		Data Warehouse Model - 6m 57s
+		Data Warehouse Design - 3m 8s
+		Data Warehouse Data - 2m 42s
+		End User Access, Old Data, And Metadata Management - 1m 21s
+		Introduction To The Case Study - 1m 54s
+
+	Data Sources - 27m
+		Data Modeling Review - Part 1 - 4m 49s
+		Data Modeling Review - Part 2 - 3m 29s
+		Data Sources Overview - 2m 4s
+		Source Data: Menu Definition - 2m 12s
+		Source Data: Miscellaneous Metadata - 1m 51s
+		Source Data: Customer Order - 2m 16s
+		Source Data: Customer Account - 1m 37s
+		Source Data: Customer Prospect - 31s
+		Source Data: Vendor Procurement - 1m 58s
+		Case Study: Assess Source Data - 6m 36s
+
+	Staging Tables - 9m
+		Staging Tables Overview - 3m 58s
+		Case Study: Create Staging Model - 5m 13s
+
+	Data Warehouse Modelling Basics - 41m
+		The Star Schema - 6m 10s
+		Dimension - 3m 27s
+		Fact - 5m 3s
+		Surrogate Keys - 3m 36s
+		The Bus Architecture - 2m 53s
+		Dimensional Modeling And Agile Development - 1m 2s
+		Practical Tips - 2m 44s
+		Self Assessment Test - 6m 40s
+		Case Study: Business Requirements - 5m 4s
+		Case Study: Bus Architecture - 4m 43s
+
+	Recurrent Dimensions - 42m
+		Date - 5m 45s
+		Time - 2m 53s
+		Customer - 5m 48s
+		Account - 1m 41s
+		Employee - 3m 15s
+		Unit of Measure - 3m 20s
+		Product - 2m 45s
+		Currency - 2m 39s
+		Audit - 1m 14s
+		Case Study: Initial Warehouse Model - Part 1 - 6m 2s
+		Case Study: Initial Warehouse Model - Part 2 - 3m 58s
+		Case Study: Initial Warehouse Model - Part 3 - 2m 36s
+
+	DW Modelling - Advanced Dimension = 56m
+		Kinds of Conformed Dimensions - 1m 45s
+		Junk Dimension - 5m 14s
+		Degenerate Dimension - 5m 19s
+		Slowly Changing Dimension - Part 1 - 7m 40s
+		Slowly Changing Dimension - Part 2 - 5m 32s
+		Snowflake, Outrigger, and Bridge - 4m 24s
+		Swappable Dimension - 2m 17s
+		Master Dimension - 1m 26s
+		Hierarchy - 7m 3s
+		Practical Tips - 2m 36s
+		Self Assessment Test - 9m 10s
+		Case Study: Elaborate Dimensions - 3m 18s
+
+	DW Modelling - Advanced Fact - 16m
+		Kinds Of Facts - 1m 30s
+		Transaction Fact - 2m 28s
+		Periodic Snapshot - 1m 32s
+		Accumulating Snapshot - 1m 51s
+		Aggregate Fact - 1m 36s
+		Consolidated Fact - 1m 6s
+		Practical Tips - 1m 10s
+		Case Study: Elaborate Facts - 4m 23s
+
+	Data Warehouse Modeling Recap - 4m
+		Warehouse Modeling Review - 1m 47s
+		Common Warehouse Modeling Mistakes - 2m 42s
+
+	Data Warehouse Design - 1h 28m
+		Conceptual, Logical, Physical Models - 55s
+		System Attributes - Part 1 - 6m 22s
+		System Attributes - Part 2 - 4m 57s
+		Data Types And Domains - 7m 34s
+		Nullability - 9m 52s
+		Constraints - 3m 3s
+		Data Warehouse Tuning - Part 1 - 3m 38s
+		Data Warehouse Tuning - Part 2 - 8m 57s
+		Views - Part 1 - 9m 24s
+		Views - Part 2 - 5m 3s
+		Miscellaneous Aspects Of Design - 2m 40s
+		Practical Tips - 1m 49s
+		Self Assessment Test - 4m 48s
+		Case Study: Create Staging SQL - 2m 15s
+		Case Study: Execute Staging SQL - 7m 28s
+		Case Study: Create Warehouse SQL - 7m 45s
+		Case Study: Execute Warehouse SQL - 1m 26s
+
+	Data Warehouse Data - 1h 37m
+		Warehouse Data Overview - 1m 59s
+		Source-To-Target Mappings - 12m 18s
+		Data Profiling - 12m 55s
+		Loading Staging Tables - Part 1 - 10m 38s
+		Loading Staging Tables - Part 2 - 7m 53s
+		Loading The Date and Time Dimensions - Part 1 - 11m 7s
+		Loading The Date and Time Dimensions - Part 2 - 5m 32s
+		Initial Warehouse Loading: Dimensions - 13m 29s
+		Initial Warehouse Loading: Facts - 15m 30s
+		Updating The Warehouse - 2m 7s
+		Warehouse Data Processing And Agile Development - 1m 55s
+		Case Study: Load Warehouse Data - 1m 50s
+
+	End User Access - 28m
+		End User Access Overview - 4m 29s
+		Case Study: Analyze Data - Part 1 - 12m 50s
+		Case Study: Analyze Data - Part 2 - 10m 34s
+
+	Data And Metadata Management - 5m
+		Offload Of Old Data - 2m 7s
+		Metadata Management - 2m 43s
+
+	Conclusion - 5m
+		Course Wrap-Up - 4m 42s
+
+	In Search Of Database Nirvana - 1h 25m
+		The Swinging Database Pendulum - 18m 28s
+		Hybrid Transaction/Analytical Processing Workloads - 32m 32s
+		Query Versus Storage Engines - 23m 12s
+		The Challenges Of HTAP - 10m 44s
+
+	Getting Started - 3m
+		Introduction To Elasticsearch - 2m 24s
+		About The Author - 56s
+
+	Basic Operations - 20m
+		Installing And Configuring Elasticsearch - 8m 8s
+		Document CRUD - Creating, Retrieving, Updating And Deleting - 4m 19s
+		Running Searches And Aggregations - 7m 9s
+
+	Data Structure - 18m
+		Mappings And Predefined Fields - 5m 54s
+		Core Types For Your Own Fields - 6m 34s
+		Using Predefined And Custom Analyzers - 5m 24s
+
+	Queries And Relevance - 35m
+		Returning Specific Fields, Sorting And Pagination - 5m 20s
+		Full-Text Search With Match And Multi-Match Queries - 8m 38s
+		Using The Lucene Query Syntax In Query Strings - 7m 56s
+		Combining Full-Text And Term-Oriented Queries With The Bool Query - 7m 14s
+		Tuning Relevance - 6m 6s
+
+	Aggregations - 18m
+		Using Queries And Aggregations Together In A Cluster - 5m 9s
+		Combining Different Kinds Of Aggregations - 5m 53s
+		Important Aggregation Types - 7m
+
+	Document Relationships - 15m
+		Objects And Nested Documents - 5m 7s
+		Parent-Child Relations - 6m 31s
+		Denormalizing And Application-Side Joins - 3m 24s
+
+	Performance And Scaling - 29m
+		Optimizing Indexing And Searching - 8m 1s
+		Optimizing Node Settings - 8m 18s
+		Configuring Shards And Replicas - 5m 34s
+		Scaling Strategies - 7m 33s
+
+	Monitoring And Administration - 19m
+		Easy Maintenance With Aliases And Index Templates - 2m 31s
+		Tuning Your Cluster For Stability - 4m 30s
+		Monitoring Elasticsearch Logs And Metrics - 7m 17s
+		Backups And Upgrades - 4m 59s
+
+	Conclusion - 4m
+		Course Wrap-Up - 3m 44s
+
+	Data Model And Architecture - 17m
+		Introduction To Accumulo - 3m 42s
+		About The Author - 2m 41s
+		The Accumulo Data Model - 5m 25s
+		Architecture - 5m 20s
+
+	Working With Accumulo - 14m
+		Installation And Configuration - 5m 36s
+		Running And Monitoring - 4m 25s
+		Using The Shell - 3m 59s
+
+	Basic Application Development - 16m
+		Starting Development - 3m 2s
+		Writing Data - 5m 41s
+		Reading Data - 4m 20s
+		Table API - 3m 9s
+
+	Application Security - 7m
+		Authentication - 3m 3s
+		Authorization - 4m 11s
+
+	Intermediate Application Development - 17m
+		Updates And Deletes - 4m 17s
+		Writing Secondary Indexes - 4m 46s
+		Reading Secondary Indexes - 3m 19s
+		Handling Hardware Failure - 4m 15s
+
+	Advanced Application Development - 13m
+		Mapreduce - 3m 4s
+		Spark - 2m 22s
+		Iterators - 3m 40s
+		Thrift Proxy - 3m 53s
+
+	Performance - 13m
+		Table Design - 6m 23s
+		Optimization Features - 7m 7s
+
+	Administration - 25m
+		Monitoring - 4m 58s
+		Table Management - 4m 8s
+		Importing And Exporting Tables - 4m 36s
+		Cluster Changes - 4m 2s
+		Replication - 7m 35s
+
+	Conclusion - 1m
+		Conclusion - 1m 7s
+
+	Course Overview - 32m
+		About This Course - 10m 55s
+		About The Instructor - 7m 7s
+		Course Sittings - 7m 6s
+		At The End Of This Course - 7m
+
+	Tooling - 34m
+		Initializing Amazon Web Services - 7m 56s
+		Using Cloudera Director To Spin Up A Test Cluster - 9m 25s
+		Crash Course In Cloudera Manager - 17m 4s
+
+	Hadoop Insecurities - 21m
+		Permissions And Encryption - 9m 28s
+		Where Permissions Stop - 4m 31s
+		Hive: Transform Harmful - 6m 58s
+
+	Authentication With MIT Kerberos
+		Installing MIT Kerberos - 8m 57s
+		Enabling Kerberos Authentication - 6m 54s
+		Using MIT Kerberos - 4m 28s
+		Submitting Jobs And Running Queries With Kerberos Auth - 6m 48s
+
+	Authentication With Active Directory
+		Installing An AD Server - 6m 30s
+		Preparing AD Server For Hadoop - 3m 46s
+		Impala LDAP Authentication With Active Directory - 7m 36s
+		Using Hue With Active Directory - 9m 10s
+		Preparing Cluster With Kerberos Authentication - 4m 41s
+		Running The CM Wizard - 3m 54s
+		Using Kerberos - 6m 5s
+		Sharing Kerberos Tickets With Active Directory - 7m 56s
+
+	Authorization - 42m
+		No Authorization - 2m 4s
+		Enabling Sentry Authorization - 5m 56s
+		Using Sentry - Defining Roles - 7m 16s
+		Using Sentry - Querying With Hue - 5m 29s
+		Custom Code And Hive UDFs With Sentry - 3m 51s
+		HDFS Extended ACLs - 5m 17s
+		HDFS Sentry Sync - 2m 13s
+		Sentry Authentication With Solr - Part 1 - 6m 2s
+		Sentry Authentication With Solr - Part 2 - 4m 18s
+
+	Encryption - 39m
+		Creating An HDFS Encryption Zone - 5m 27s
+		Using HDFS Encryption Zones - 2m 36s
+		SSL: Crash Course In SSL Tools - 8m 40s
+		SSL: Preparing A Cluster For SSL Using A Self-Signed Root CA - 4m 27s
+		SSL: Enabling SSL For HDFS And Yarn - 3m 46s
+		SSL: Verifying SSL With HDFS And Yarn - 2m 52s
+		SASL Hive And HiveServer2 - 2m 41s
+		SSL With HBase And Oozie - 1m 57s
+		SSL With Impala - 1m 34s
+		SSL With Hue - 5m 29s
+
+	Developer Topics - 23m
+		UserGroupInformation Basics - 9m 46s
+		Delegation Tokens - 3m 53s
+		Secure Impersonation - 8m 55s
+
+	Administration Topics - 40m
+		Role Assignments And Gateway Isolation - 12m 28s
+		Hbase ACLs - 5m 16s
+		Audits - 6m 19s
+		Sqoop - 4m 50s
+		Joining An AD Domain - 11m 31s
+
+	Secure Hadoop Topics - 11m
+		The Secure Hadoop Market - 5m 4s
+		Cheats - 5m 52s
+
+	Conclusion - 5m
+		Wrap Up - 4m 40s
